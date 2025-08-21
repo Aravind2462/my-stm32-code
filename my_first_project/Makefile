@@ -43,6 +43,7 @@ Core/Src/system_stm32f4xx.c \
 Core/Src/sysmem.c \
 Core/Src/syscalls.c  
 
+# HAL library
 C_SOURCES +=  \
 ../stm32f4xx-hal-driver/Src/stm32f4xx_hal_tim.c \
 ../stm32f4xx-hal-driver/Src/stm32f4xx_hal_tim_ex.c \
@@ -60,6 +61,17 @@ C_SOURCES +=  \
 ../stm32f4xx-hal-driver/Src/stm32f4xx_hal.c \
 ../stm32f4xx-hal-driver/Src/stm32f4xx_hal_exti.c \
 
+# FreeRTOS sources
+C_SOURCES += \
+../FreeRTOS-Kernel/croutine.c \
+../FreeRTOS-Kernel/event_groups.c \
+../FreeRTOS-Kernel/list.c \
+../FreeRTOS-Kernel/queue.c \
+../FreeRTOS-Kernel/stream_buffer.c \
+../FreeRTOS-Kernel/tasks.c \
+../FreeRTOS-Kernel/timers.c \
+../FreeRTOS-Kernel/portable/MemMang/heap_4.c \
+../FreeRTOS-Kernel/portable/GCC/ARM_CM4F/port.c
 
 
 # ASM sources
@@ -120,11 +132,18 @@ AS_INCLUDES =
 # C includes
 C_INCLUDES =  \
 -ICore/Inc \
--I../stm32f4xx-hal-driver/Inc \
--I../stm32f4xx-hal-driver/Inc/Legacy \
 -IDrivers/CMSIS/Device/ST/STM32F4xx/Include \
 -IDrivers/CMSIS/Include
 
+# HAL Includes
+C_INCLUDES +=  \
+-I../stm32f4xx-hal-driver/Inc \
+-I../stm32f4xx-hal-driver/Inc/Legacy
+
+# FreeRTOS Includes
+C_INCLUDES +=  \
+-I../FreeRTOS-Kernel/include \
+-I../FreeRTOS-Kernel/portable/GCC/ARM_CM4F \
 
 # compile gcc flags
 ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections

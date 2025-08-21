@@ -40,17 +40,21 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-
+TaskHandle_t task1_handle = NULL;
 /* USER CODE BEGIN PV */
 uint8_t toggle = 0;
 uint8_t gpio_event_flag = 0;
 volatile uint8_t input_status = 0;
+
+BaseType_t status;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_Interrupt_Init(void);
+
+static void task_1(void *task_entry);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -91,6 +95,14 @@ int main(void)
   MX_Interrupt_Init();
   /* USER CODE BEGIN 2 */
 
+
+  /* definition and creation of defaultTask */
+  status = xTaskCreate(task_1, "task_1", 1024, NULL, 4, &task1_handle);
+  if(status != pdPASS) {
+    Error_Handler();
+  }
+  vTaskStartScheduler();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -99,8 +111,18 @@ int main(void)
   {
     /* USER CODE END WHILE */
 
-    input_status = HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin);
+    /* USER CODE BEGIN 3 */
+  }
+  /* USER CODE END 3 */
+}
 
+
+
+
+static void task_1(void *task_entry)
+{
+  while (1) {
+    input_status = HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin);
     if (gpio_event_flag == 1) {
       gpio_event_flag = 0;
       toggle ^= 1;
@@ -112,12 +134,8 @@ int main(void)
       HAL_Delay(200);
       HAL_GPIO_WritePin(LD6_GPIO_Port, LD6_Pin, toggle);
       HAL_Delay(200);
-
     }
-
-    /* USER CODE BEGIN 3 */
   }
-  /* USER CODE END 3 */
 }
 
 /**

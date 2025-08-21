@@ -1,3 +1,6 @@
-[submodule "my_first_project/Drivers/stm32f4xx-hal-driver"]
-	path = my_first_project/Drivers/stm32f4xx-hal-driver
+[submodule "FreeRTOS-Kernel"]
+	path = FreeRTOS-Kernel
+	url = https://github.com/FreeRTOS/FreeRTOS-Kernel.git
+[submodule "stm32f4xx-hal-driver"]
+	path = stm32f4xx-hal-driver
 	url = https://github.com/STMicroelectronics/stm32f4xx-hal-driver.git

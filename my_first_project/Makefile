@@ -44,21 +44,23 @@ Core/Src/sysmem.c \
 Core/Src/syscalls.c  
 
 C_SOURCES +=  \
-Drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal_tim.c \
-Drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal_tim_ex.c \
-Drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal_rcc.c \
-Drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal_rcc_ex.c \
-Drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal_flash.c \
-Drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal_flash_ex.c \
-Drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal_flash_ramfunc.c \
-Drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal_gpio.c \
-Drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal_dma_ex.c \
-Drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal_dma.c \
-Drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal_pwr.c \
-Drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal_pwr_ex.c \
-Drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal_cortex.c \
-Drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal.c \
-Drivers/stm32f4xx-hal-driver/Src/stm32f4xx_hal_exti.c \
+../stm32f4xx-hal-driver/Src/stm32f4xx_hal_tim.c \
+../stm32f4xx-hal-driver/Src/stm32f4xx_hal_tim_ex.c \
+../stm32f4xx-hal-driver/Src/stm32f4xx_hal_rcc.c \
+../stm32f4xx-hal-driver/Src/stm32f4xx_hal_rcc_ex.c \
+../stm32f4xx-hal-driver/Src/stm32f4xx_hal_flash.c \
+../stm32f4xx-hal-driver/Src/stm32f4xx_hal_flash_ex.c \
+../stm32f4xx-hal-driver/Src/stm32f4xx_hal_flash_ramfunc.c \
+../stm32f4xx-hal-driver/Src/stm32f4xx_hal_gpio.c \
+../stm32f4xx-hal-driver/Src/stm32f4xx_hal_dma_ex.c \
+../stm32f4xx-hal-driver/Src/stm32f4xx_hal_dma.c \
+../stm32f4xx-hal-driver/Src/stm32f4xx_hal_pwr.c \
+../stm32f4xx-hal-driver/Src/stm32f4xx_hal_pwr_ex.c \
+../stm32f4xx-hal-driver/Src/stm32f4xx_hal_cortex.c \
+../stm32f4xx-hal-driver/Src/stm32f4xx_hal.c \
+../stm32f4xx-hal-driver/Src/stm32f4xx_hal_exti.c \
+
+
 
 # ASM sources
 ASM_SOURCES =  \
@@ -118,8 +120,8 @@ AS_INCLUDES =
 # C includes
 C_INCLUDES =  \
 -ICore/Inc \
--IDrivers/stm32f4xx-hal-driver/Inc \
--IDrivers/stm32f4xx-hal-driver/Inc/Legacy \
+-I../stm32f4xx-hal-driver/Inc \
+-I../stm32f4xx-hal-driver/Inc/Legacy \
 -IDrivers/CMSIS/Device/ST/STM32F4xx/Include \
 -IDrivers/CMSIS/Include
 

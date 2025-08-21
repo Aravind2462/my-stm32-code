@@ -1,5 +1,0 @@
-make.exe --dry-run --keep-going --print-directory
-make: Entering directory '/cygdrive/d/aravind_git/my-stm32-code/my_first_project'
-make: Nothing to be done for 'all'.
-make: Leaving directory '/cygdrive/d/aravind_git/my-stm32-code/my_first_project'
- 

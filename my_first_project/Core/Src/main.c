@@ -43,11 +43,14 @@
 
 /* USER CODE BEGIN PV */
 uint8_t toggle = 0;
+uint8_t gpio_event_flag = 0;
+volatile uint8_t input_status = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
+static void MX_Interrupt_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -85,6 +88,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_Interrupt_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -94,19 +98,20 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-    toggle ^= 1;
 
+    input_status = HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin);
 
-    if(HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin)) {
-
-		HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, toggle);
-		HAL_Delay(200);
-		HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, toggle);
-		HAL_Delay(200);
-		HAL_GPIO_WritePin(LD5_GPIO_Port, LD5_Pin, toggle);
-		HAL_Delay(200);
-		HAL_GPIO_WritePin(LD6_GPIO_Port, LD6_Pin, toggle);
-		HAL_Delay(200);
+    if (gpio_event_flag == 1) {
+      gpio_event_flag = 0;
+      toggle ^= 1;
+      HAL_GPIO_WritePin(LD4_GPIO_Port, LD4_Pin, toggle);
+      HAL_Delay(200);
+      HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, toggle);
+      HAL_Delay(200);
+      HAL_GPIO_WritePin(LD5_GPIO_Port, LD5_Pin, toggle);
+      HAL_Delay(200);
+      HAL_GPIO_WritePin(LD6_GPIO_Port, LD6_Pin, toggle);
+      HAL_Delay(200);
 
     }
 
@@ -177,8 +182,8 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_EVT_RISING;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : LD4_Pin LD3_Pin LD5_Pin LD6_Pin */
@@ -191,6 +196,15 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
 }
+
+static void MX_Interrupt_Init(void)
+{
+
+  HAL_NVIC_SetPriority(EXTI0_IRQn, 5, 5);
+  HAL_NVIC_EnableIRQ(EXTI0_IRQn);
+
+}
+
 
 /* USER CODE BEGIN 4 */
 
@@ -209,6 +223,20 @@ void Error_Handler(void)
   {
   }
   /* USER CODE END Error_Handler_Debug */
+}
+
+/**
+  * @brief  EXTI line detection callbacks.
+  * @param  GPIO_Pin Specifies the pins connected EXTI line
+  * @retval None
+  */
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+  if (GPIO_Pin == GPIO_PIN_0) {
+    if(HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin) == GPIO_PIN_SET) {
+      gpio_event_flag = 1;
+    }
+  }
 }
 
 #ifdef  USE_FULL_ASSERT

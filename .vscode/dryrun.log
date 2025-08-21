@@ -1,0 +1,6 @@
+make.exe --dry-run --keep-going --print-directory
+make: Entering directory '/cygdrive/d/aravind_git/my-stm32-code'
+make: Leaving directory '/cygdrive/d/aravind_git/my-stm32-code'
+ 
+make: *** No targets specified and no makefile found.  Stop.
+

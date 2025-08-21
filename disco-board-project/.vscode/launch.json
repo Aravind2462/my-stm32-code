@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+        "name": "disco-board-project",
+        "cwd": "${workspaceFolder}",
+        "executable": "build/disco-board-project.elf",
+        "request": "launch",
+        "type": "cortex-debug",
+        "servertype": "openocd",
+        "device": "STM32F407",
+        "configFiles": [
+            "interface/stlink.cfg",
+            "target/stm32f4x.cfg"
+        ],
+        "runToEntryPoint": "main",
+        "showDevDebugOutput": "none"
+    }
+  ]
+}

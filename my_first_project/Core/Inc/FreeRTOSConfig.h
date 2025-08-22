@@ -311,11 +311,29 @@
 /* Interrupt nesting behaviour configuration. *********************************/
 /******************************************************************************/
 
+/* Cortex-M specific definitions. */
+#ifdef __NVIC_PRIO_BITS
+ /* __BVIC_PRIO_BITS will be specified when CMSIS is being used. */
+ #define configPRIO_BITS         __NVIC_PRIO_BITS
+#else
+ #define configPRIO_BITS         4
+#endif
+
+/* The lowest interrupt priority that can be used in a call to a "set priority"
+function. */
+#define configLIBRARY_LOWEST_INTERRUPT_PRIORITY   15
+
+/* The highest interrupt priority that can be used by any interrupt service
+routine that makes calls to interrupt safe FreeRTOS API functions.  DO NOT CALL
+INTERRUPT SAFE FREERTOS API FUNCTIONS FROM ANY INTERRUPT THAT HAS A HIGHER
+PRIORITY THAN THIS! (higher priorities are lower numeric values. */
+#define configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY 5
+
 /* configKERNEL_INTERRUPT_PRIORITY sets the priority of the tick and context
  * switch performing interrupts.  Not supported by all FreeRTOS ports.  See
  * https://www.freertos.org/RTOS-Cortex-M3-M4.html for information specific to
  * ARM Cortex-M devices. */
-#define configKERNEL_INTERRUPT_PRIORITY          0
+#define configKERNEL_INTERRUPT_PRIORITY          (configLIBRARY_LOWEST_INTERRUPT_PRIORITY << (8 - configPRIO_BITS))
 
 /* configMAX_SYSCALL_INTERRUPT_PRIORITY sets the interrupt priority above which
  * FreeRTOS API calls must not be made.  Interrupts above this priority are
@@ -323,7 +341,7 @@
  * to the highest interrupt priority (0).  Not supported by all FreeRTOS ports.
  * See https://www.freertos.org/RTOS-Cortex-M3-M4.html for information specific
  * to ARM Cortex-M devices. */
-#define configMAX_SYSCALL_INTERRUPT_PRIORITY     0
+#define configMAX_SYSCALL_INTERRUPT_PRIORITY     (configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY << (8 - configPRIO_BITS))
 
 /* Another name for configMAX_SYSCALL_INTERRUPT_PRIORITY - the name used depends
  * on the FreeRTOS port. */
@@ -664,5 +682,10 @@
 #define INCLUDE_xTaskAbortDelay                0
 #define INCLUDE_xTaskGetHandle                 0
 #define INCLUDE_xTaskResumeFromISR             1
+
+/* System handlers */
+#define xPortPendSVHandler  PendSV_Handler
+#define vPortSVCHandler SVC_Handler
+#define xPortSysTickHandler SysTick_Handler
 
 #endif /* FREERTOS_CONFIG_H */

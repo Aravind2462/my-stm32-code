@@ -41,7 +41,8 @@ Core/Src/stm32f4xx_it.c \
 Core/Src/stm32f4xx_hal_msp.c \
 Core/Src/system_stm32f4xx.c \
 Core/Src/sysmem.c \
-Core/Src/syscalls.c  
+Core/Src/syscalls.c \
+Core/Src/stm32f4xx_hal_timebase_tim.c
 
 # HAL library
 C_SOURCES +=  \
